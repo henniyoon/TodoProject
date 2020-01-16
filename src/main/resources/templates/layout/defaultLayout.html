@@ -3,8 +3,9 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<head>
-	    <title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">BSH</title>
-	 	    <!-- 공통 css, js, meta tag -->
+	    <title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">My Manager</title>
+	 	    
+	 	<!-- 공통 css, js, meta tag -->
 	    <th:block th:replace="inc/header"></th:block>
 	</head>
 
@@ -12,10 +13,10 @@
 			<th:block th:replace="inc/sidebar"></th:block>
 	    	
 	    	<!-- Navigation Bar -->
-<!-- 			<th:block th:replace="inc/topbar"></th:block> -->
+			<th:block th:replace="inc/topbar"></th:block>
 	    	
 	    	<!-- page content body 구성 -->
-	    			<th:block layout:fragment="content"></th:block>
+	    	<th:block layout:fragment="content"></th:block>
 
 	    	<!-- Common footer -->
 		    <th:block th:replace="inc/footer"></th:block>
