@@ -23,13 +23,13 @@ import static com.hennie.dao.TodoDaoSqls.*;
 
 
 @Repository
-// 急攫何
+// 靹犾柛攵�
 public class TodoDao {	
 	private NamedParameterJdbcTemplate jdbc;
 	private SimpleJdbcInsert insertAction; //Insert
 	private RowMapper<Todo> rowMapper = BeanPropertyRowMapper.newInstance(Todo.class); //Select
 
-	// 积己磊何
+	// 靸濎劚鞛愲秬
 	@Autowired
     DataSource dataSource;
 
@@ -38,7 +38,7 @@ public class TodoDao {
 		this.insertAction = new SimpleJdbcInsert(dataSource).withTableName("todo");
 	}
 	
-	// 备泅何
+	// 甑槃攵�
 	/// SELECT
 	public List<Todo> selectAll() {
 		return jdbc.query(SELECT_ALL, Collections.emptyMap(), rowMapper);

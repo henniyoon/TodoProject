@@ -20,13 +20,13 @@ import com.hennie.dto.TodoList;
 import static com.hennie.dao.TodoListDaoSqls.*;
 
 @Repository
-// 急攫何
+// 靹犾柛攵�
 public class TodoListDao {
 	private NamedParameterJdbcTemplate jdbc;
 	private SimpleJdbcInsert insertAction; // Insert
 	private RowMapper<TodoList> rowMapper = BeanPropertyRowMapper.newInstance(TodoList.class);
 	
-	// 积己磊何
+	// 靸濎劚鞛愲秬
 	@Autowired
 	DataSource dataSource;
 	
@@ -35,7 +35,7 @@ public class TodoListDao {
 		this.insertAction = new SimpleJdbcInsert(dataSource);
 	}
 	
-	// 备泅何
+	// 甑槃攵�
 	/// SELECT_BY_TODO_LIST_NO
 	public TodoList selectByNo(Integer no) {
 		try {
