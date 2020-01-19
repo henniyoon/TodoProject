@@ -36,7 +36,7 @@ private static final Logger logger = LoggerFactory.getLogger(HomeController.clas
 	
 	@RequestMapping(value = "/home")
 	public String home() {
-		return "views/home";
+		return "views/blank";
 	}
 	
 	@RequestMapping(value = "/login")

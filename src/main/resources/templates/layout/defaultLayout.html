@@ -2,28 +2,56 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	
 	<head>
-	    <title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">My Manager</title>
-	 	    
+	    <title layout:title-pattern="$LAYOUT_TITLE :: $CONTENT_TITLE">My Manager</title>
 	 	<!-- 공통 css, js, meta tag -->
 	    <th:block th:replace="inc/header"></th:block>
 	</head>
-
-			<!-- Side Bar -->
+	
+	<body id="page-top">
+	
+		<!-- Page Wrapper Start -->
+		<div id="wrapper">
+		
+			<!-- Side Bar Start -->
 			<th:block th:replace="inc/sidebar"></th:block>
+			<!-- Side Bar End -->	
+			
+			<!-- Content Wrapper Start -->
+    		<div id="content-wrapper" class="d-flex flex-column">
+    			<!-- Main Content Start -->
+     		 	<div id="content">
 	    	
-	    	<!-- Navigation Bar -->
-			<th:block th:replace="inc/topbar"></th:block>
+					<!-- Top Bar Start -->
+					<th:block th:replace="inc/topbar"></th:block>
+					<!-- Top Bar End -->
 	    	
-	    	<!-- page content body 구성 -->
-	    	<th:block layout:fragment="content"></th:block>
+					<!-- Content Body Start  -->
+					<th:block layout:fragment="content"></th:block>
+					<!-- Content Body End -->
 
-	    	<!-- Common footer -->
-		    <th:block th:replace="inc/footer"></th:block>
+	    		</div>
+      			<!-- Main Content End -->
 	    
-			<!-- 공통 javascript -->
+	   	 		<!-- Footer Start -->
+				<th:block th:replace="inc/footer"></th:block>
+				<!-- Footer End -->
+	    
+	     	</div>
+    		<!-- Content Wrapper End -->
+	    </div>
+  		<!-- Page Wrapper End -->
+	    
+	    <!-- Common modal Start -->
+	    <th:block th:replace="inc/modal"></th:block>
+	    <!-- Common modal End -->
+	    
+		<!-- 공통 javascript -->
 	    <th:block th:replace="inc/scripts"></th:block>
-			<!-- page content javascript -->
+		<!-- page content javascript -->
 	    <th:block layout:fragment="pageScript"></th:block>
+	    
 	</body>
+	
 </html>
