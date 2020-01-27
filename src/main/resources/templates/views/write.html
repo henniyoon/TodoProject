@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="~{layout/defaultLayout}">
+	
+	<head>
+	    <title>blank</title>    
+	</head>
+	
+	<th:block layout:fragment="content">
+    
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+        	 <form  action="/post" method="post">
+        		제목 : <input type="text" name="title"> <br>
+        		작성자 : <input type="text" name="writer"> <br>
+        		<textarea name="content"></textarea><br>
+
+        		<input type="submit" value="등록">
+    		</form>
+        </div>
+        <!-- /.container-fluid -->
+        
+	</th:block>
+
+</html>

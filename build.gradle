@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '2.2.2.RELEASE'
+	id 'org.springframework.boot' version '2.2.3.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	id 'java'
 }
@@ -23,17 +23,19 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'com.oracle.ojdbc:ojdbc8'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-	}
-	implementation('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect')
+//	implementation 'org.springframework.boot:spring-boot-starter-jdbc'			// JDBC
+//	runtimeOnly 'com.oracle.ojdbc:ojdbc8'										// Oracle
+	runtimeOnly 'com.h2database:h2'												// H2 Database
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'		// JPA
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'		// Thymeleaf
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'			// Thymeleaf Layout
+	implementation 'org.springframework.boot:spring-boot-starter-web'			// Spring Boot Web
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'				// Spring Boot Devtools
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'		// Spring Boot Test
+	compileOnly 'org.projectlombok:lombok'										// Lombok
+	annotationProcessor 'org.projectlombok:lombok'								// Lombok annotation
+	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6'	// 쿼리 파라미터 로그 남기기 (개발 단계에서는 유용하나 운용시 성능 테스트)
+  	
 }
 
 test {
