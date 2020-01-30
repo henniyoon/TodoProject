@@ -29,7 +29,9 @@ public class Todo {
 	private LocalDateTime regdate;
 	private Date deadline;
 	
-	@OneToMany(mappedBy = "todo")
-	private List<TodoList> todoList = new ArrayList<>();
+	@OneToMany(mappedBy = "todo") // TodoList table의 todo에 의해 매핑된 거울이다.
+	private List<TodoList> todoLists = new ArrayList<>();
 	
 }
+
+

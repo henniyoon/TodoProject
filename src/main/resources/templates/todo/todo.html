@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="~{layout/defaultLayout}">
+
+<head>
+    <title>TodoList</title>    
+</head>
+	
+	<th:block layout:fragment="content">
+    
+    	<h1 class="h3 mb-4 text-gray-800">미래 계획</h1>
+    	<div class="col-lg-7 p-0">
+	        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm float-right" href="/todo/new">새 계획</a>
+	       	<table class="table table-bordered dataTable">
+	       		<thead>
+	       			<tr>
+	       				<th>#</th>
+	       				<th>TODO</th>
+	       				<th>작성일</th>
+	       				<th>마감일</th>        			       				
+	       			</tr>
+	       		</thead>
+	       		<tbody>
+	       			<tr th:each="todo : ${todos}">
+	       				<td th:text="${todo.id}"></td>
+	       				<td th:text="${todo.title}"></td>
+						<!-- LocalDateTime format -->
+	       				<td th:text="${#temporals.format(todo.regdate, 'yyyy년 MM월 dd일')}"></td>
+						<td th:if="${#strings.isEmpty(todo.deadline)}">기한 없음</td>
+						<!--  Util Date format -->
+	       				<td th:unless="${#strings.isEmpty(todo.deadline)}" th:text="${#dates.format(todo.deadline, 'yyyy년 MM월 dd일')}"></td>
+	       			</tr>
+	       		</tbody>
+	       	</table>
+       	</div>
+	</th:block>
+
+</html>
