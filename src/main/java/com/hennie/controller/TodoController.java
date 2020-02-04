@@ -48,14 +48,16 @@ public class TodoController {
 		return "redirect:/todo";
 	}
 	
+	// Todo 메인 리스트
 	@GetMapping("/todo")
 	public String list(Model model) {
-		List<Todo> todos =todoService.findTodos();
+		List<Todo> todos = todoService.findTodos();
 		// 실무에서 더 복잡해졌을 때 엔티티를 뿌리는 것 보단 DTO를 만들어서 필요한 객체만 뿌리는 것을 권장!
 		model.addAttribute("todos", todos);
 		return "todo/todo";
 	}
 	
+	// Todo 수정
 	@GetMapping("/todo/{todoId}/edit")
 	public String updateTodoForm(@PathVariable("todoId") Long todoId, Model model) {
 		Todo todo = (Todo) todoService.findOne(todoId);
@@ -75,5 +77,21 @@ public class TodoController {
 		todoService.updateTodo(form.getId(), form.getTitle(), form.getDeadline());
 		return "redirect:/todo";
 	}
+	
+//	// Todo 삭제
+//	@GetMapping("/todo/{todoId}/delete")
+//	public String deleteTodo(@PathVariable("todoId") Long todoId) {
+//		// Field
+//		boolean isDeleted;
+//
+//		// Process
+//		isDeleted = todoService.deleteTodo(todoId);
+//		
+//		// Redirect
+//		if (isDeleted)
+//			return "redirect:/todo";
+//		else
+//			return "redirect:/todo?error";
+//	}
 
 }

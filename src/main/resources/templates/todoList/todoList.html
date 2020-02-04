@@ -10,13 +10,34 @@
 </head>
 	
 	<th:block layout:fragment="content">
-    
-    	<h1 class="h3 mb-4 text-gray-800">미래 계획</h1>
-    	<div class="col-lg-7 p-0">
-  
-  
- 
-    	</div>
+    	<form role="form" th:action="|/todoList/${todoId}/new|" th:object="${todoListForm}" method="post">
+	    	<h3 class="mb-4 text-gray-800">미래 계획</h3>
+	    	<div class="col-lg-7 p-0">
+	  			<div class="card mb-4 py-3 border-left-primary">
+	  				<div class="card-body">
+  						<h3 class ="text-gray-800" th:text="${todo.title}"></h3>
+	  					<div th:if="${#strings.isEmpty(todo.deadline)}" th:text="|${#temporals.format(todo.regdate, 'yyyy년 MM월 dd일')} ~ 기한없음|"></div>
+	  					<div th:unless="${#strings.isEmpty(todo.deadline)}" th:text="|${#temporals.format(todo.regdate, 'yyyy년 MM월 dd일')} ~#dates.format(todo.deadline, 'yyyy년 MM월 dd일')}"></div>
+	  					<div th:each="todoList,idx : ${todoLists}">
+	  						<div class="custom-control custom-checkbox">
+<!-- 	  							<div th:text="${todoList.id}"></div> -->
+	  							<input type="checkbox" class="custom-control-input" th:id="|todoListCheck${idx.index}|">
+	  							<label class="custom-control-label" th:for="|todoListCheck${idx.index}|" th:text="${todoList.title}"></label>
+	  							<a th:href="@{/todoList/{todoId}/{listId}/delete (todoId=${todo.id}, listId=${todoList.id})}" 
+	  							class="text-gray-100 d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">x</a>
+	  						</div>
+	  					</div>
+						<input type="text" name="title" class="form-control form-control-sm" placeholder="세부 계획을 등록하세요">
+<!-- 					<a href='#' th:href="@{/todoList/{todoId}/new (todoId=${todo.id})}" -->
+<!-- 					class="d-none d-sm-inline-block btn btn-sm btn-primary float-right shadow-sm">+</a> -->
+						<button type="submit" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">+</button>  			
+    					<a th:href="@{/todo/{todoId}/edit (todoId=${todo.id})}"
+    					class="text-gray-100 d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">수정</a>
+    					<a th:href="@{/todo/{todoId}/delete (todoId=${todo.id})}" 
+    					class="text-gray-100 d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">삭제</a>
+    				</div>
+    			</div>
+    		</form>
 	</th:block>
 
 </html>

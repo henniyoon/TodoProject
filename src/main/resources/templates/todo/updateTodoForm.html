@@ -10,7 +10,7 @@
 	
 <th:block layout:fragment="content">
 
-	<h1 class="h3 mb-4 text-gray-800">미래 계획 수정</h1>
+	<h3 class="mb-4 text-gray-800">미래 계획 수정</h3>
    
 	<form th:object="${form}" method="post">
       	
@@ -37,6 +37,15 @@
                         	<input type="checkbox" class="custom-control-input" id="customCheck">
                         	<label class="custom-control-label" for="customCheck">기한 없음</label>
                       	</div>
+	        		</div>
+	        		
+	        		<div class="form-group row">
+	        			<label th:for="title" class="m-0 col-sm-2 col-form-label font-weight-bold text-primary">세부 계획</label>
+	        			<div th:each="todoList, idx : ${todoLists}">
+<!-- 	        				<input type="checkbox" class="custom-control-input" th:id="|todoListCheck${idx.index}|"> -->
+<!-- 	  						<label class="custom-control-label" th:for="|todoListCheck${idx.index}|" th:text="${todoList.title}"></label> -->
+	        				<input type="text" class="m-0 form-control">
+	        			</div>
 	        		</div>	        		
 	        	</div>
         		<hr>
