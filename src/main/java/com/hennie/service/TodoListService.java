@@ -69,6 +69,25 @@ public class TodoListService {
 		return todoList;
 	}
 	
+	// TodoList 전체 개수 조회
+	public Long countTodoId(Todo todo) {
+		Long countList;
+		
+		countList = todoListRepo.countByTodo(todo);
+		
+		return countList;
+	}
+	
+	// TodoList TodoType.DONE 개수 조회
+	public Long countType(TodoType type) {
+		Long countDoneList;
+	
+		countDoneList = todoListRepo.countByType(TodoType.DONE);
+		
+		return countDoneList;
+	}
+	
+	
 	// TodoList 수정
 	@Transactional
 	public void updateTodoList(Long id, String title, TodoType type) {
@@ -84,6 +103,23 @@ public class TodoListService {
 		todoList = optTodoList.get();
 		
 		todoList.setTitle(title);
+		todoList.setType(type);
+	}
+	
+	// TodoList 타입 수정
+	@Transactional
+	public void updateTodoType(Long id, TodoType type) {
+		// Field
+		Optional<TodoList> optTodoType = todoListRepo.findById(id);
+		TodoList todoList;
+		
+		// Exception
+		if(!optTodoType.isPresent())
+			return;
+		
+		// Load
+		todoList = optTodoType.get();
+		
 		todoList.setType(type);
 	}
 	

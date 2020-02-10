@@ -19,7 +19,8 @@
        				<div class="form-group row">
 		        		<label th:for="title" class="m-0 col-sm-2 col-form-label font-weight-bold text-primary">TODO</label>
 		        		<div class="col-sm-10">
-			        		<input type="text" th:field="*{title}" class="form-control" placeholder="todo를 입력하세요">
+			        		<input type="text" th:field="*{title}" class="form-control" placeholder=""
+			        			th:class="${#fields.hasErrors('title')}? 'form-control fieldError' : 'form-control'">
 							<p th:if="${#fields.hasErrors('title')}" class="text-danger" th:errors="*{title}">Incorrect date</p>
 						</div>
 					</div>
@@ -27,7 +28,7 @@
 					<div class="form-group row">
 	        			<label th:for="deadline" class="m-0 col-sm-2 col-form-label font-weight-bold text-primary">마감일</label>	
 	        			<div class="col-sm-6">
-	        				<input type="date" class="m-0 form-control" th:field="*{deadline}">
+	        				<input type="date" th:field="*{deadline}" class="m-0 form-control">
 	        			</div>
                      	<div class="custom-control custom-checkbox float-right">
                         	<input type="checkbox" class="custom-control-input" id="customCheck">

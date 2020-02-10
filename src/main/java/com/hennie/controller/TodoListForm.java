@@ -2,6 +2,8 @@ package com.hennie.controller;
 
 import javax.validation.constraints.NotEmpty;
 
+import com.hennie.entity.TodoType;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,5 +14,6 @@ public class TodoListForm {
 	
 	@NotEmpty(message = "세부 계획을 입력하세요.")
 	private String title;
-
+	
+	private TodoType type;
 }

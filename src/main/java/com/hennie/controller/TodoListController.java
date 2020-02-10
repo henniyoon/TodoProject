@@ -49,6 +49,17 @@ public class TodoListController {
 		List<TodoList> todoLists = todoListService.findTodoLists(todoId);
 		model.addAttribute("todo", todo);
 		model.addAttribute("todoLists", todoLists);
+		Long countTodoList = todoListService.countTodoId(todo);
+		Long countTodoDone = todoListService.countType(TodoType.DONE);
+		int progressWidth;
+		if(countTodoList == 0L) {
+			progressWidth = 0;
+		}
+		else {
+			progressWidth = (int)((double) countTodoDone/ (double) countTodoList * 100);
+		}
+		model.addAttribute("progressWidth", progressWidth);
+		
 		return "todoList/todoList";
 	}
 	
@@ -86,7 +97,5 @@ public class TodoListController {
 		return "redirect:/todo";
 		
 	}
-	
-	
 
 }
