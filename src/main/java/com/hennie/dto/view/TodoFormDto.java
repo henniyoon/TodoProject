@@ -1,4 +1,4 @@
-package com.hennie.controller;
+package com.hennie.dto.view;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class TodoForm {
+public class TodoFormDto {
 	
 	private Long id;
 	

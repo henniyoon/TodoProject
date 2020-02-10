@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.hennie.dto.view.TodoFormDto;
 import com.hennie.entity.Todo;
 import com.hennie.service.TodoService;
 
@@ -30,12 +31,12 @@ public class TodoController {
 	// Todo 등록
 	@GetMapping("/todo/new")
 	public String createForm(Model model) {
-		model.addAttribute("todoForm", new TodoForm());
+		model.addAttribute("todoForm", new TodoFormDto());
 		return "todo/createTodoForm";
 	}
 	
 	@PostMapping("/todo/new")
-	public String create(@Valid TodoForm form, BindingResult result) {
+	public String create(@Valid TodoFormDto form, BindingResult result) {
 		if(result.hasErrors()) {
 			return "todo/createTodoForm"; // 에러가 있으면 다시 todo 등록 폼으로 보냄
 		}
@@ -62,7 +63,7 @@ public class TodoController {
 	public String updateTodoForm(@PathVariable("todoId") Long todoId, Model model) {
 		Todo todo = (Todo) todoService.findOne(todoId);
 		
-		TodoForm form = new TodoForm();
+		TodoFormDto form = new TodoFormDto();
 		form.setId(todo.getId());
 		form.setTitle(todo.getTitle());
 //		form.setRegdate(todo.getRegdate());
@@ -73,7 +74,7 @@ public class TodoController {
 	}
 	
 	@PostMapping("/todo/{todoId}/edit")
-	public String updateTodo(TodoForm form) {
+	public String updateTodo(TodoFormDto form) {
 		todoService.updateTodo(form.getId(), form.getTitle(), form.getDeadline());
 		return "redirect:/todo";
 	}

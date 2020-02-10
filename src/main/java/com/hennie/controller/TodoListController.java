@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.hennie.domain.TodoType;
+import com.hennie.dto.view.TodoListDto;
+import com.hennie.dto.view.TodoListFormDto;
 import com.hennie.entity.Todo;
 import com.hennie.entity.TodoList;
-import com.hennie.entity.TodoType;
 import com.hennie.service.TodoListService;
 import com.hennie.service.TodoService;
 
@@ -29,7 +31,7 @@ public class TodoListController {
 	
 	// TodoList 등록	
 	@PostMapping("/todoList/{todoId}/new")
-	public String create(@PathVariable("todoId") Long todoId, @Valid TodoListForm form, BindingResult result, Model model) {
+	public String create(@PathVariable("todoId") Long todoId, @Valid TodoListFormDto form, BindingResult result, Model model) {
 		if(result.hasErrors())
 			return "todoList/" + todoId + "/new"; 
 		TodoList todoList = new TodoList();
@@ -46,19 +48,8 @@ public class TodoListController {
 	@GetMapping("/todo/{todoId}")
 	public String list(@PathVariable("todoId") Long todoId, Model model) {
 		Todo todo = todoService.findOne(todoId);
-		List<TodoList> todoLists = todoListService.findTodoLists(todoId);
-		model.addAttribute("todo", todo);
-		model.addAttribute("todoLists", todoLists);
-		Long countTodoList = todoListService.countTodoId(todo);
-		Long countTodoDone = todoListService.countType(TodoType.DONE);
-		int progressWidth;
-		if(countTodoList == 0L) {
-			progressWidth = 0;
-		}
-		else {
-			progressWidth = (int)((double) countTodoDone/ (double) countTodoList * 100);
-		}
-		model.addAttribute("progressWidth", progressWidth);
+		
+		model.addAttribute("todo", new TodoListDto(todo));
 		
 		return "todoList/todoList";
 	}

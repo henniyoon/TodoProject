@@ -6,9 +6,9 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hennie.domain.TodoType;
 import com.hennie.entity.Todo;
 import com.hennie.entity.TodoList;
-import com.hennie.entity.TodoType;
 import com.hennie.repository.TodoListRepository;
 import com.hennie.repository.TodoRepository;
 
@@ -108,19 +108,22 @@ public class TodoListService {
 	
 	// TodoList 타입 수정
 	@Transactional
-	public void updateTodoType(Long id, TodoType type) {
+	public boolean updateTodoType(Long id, TodoType type) {
 		// Field
 		Optional<TodoList> optTodoType = todoListRepo.findById(id);
 		TodoList todoList;
 		
 		// Exception
 		if(!optTodoType.isPresent())
-			return;
+			return false;
 		
 		// Load
 		todoList = optTodoType.get();
 		
 		todoList.setType(type);
+
+		// Return
+		return true;
 	}
 	
 	// TodoList DeletefindById

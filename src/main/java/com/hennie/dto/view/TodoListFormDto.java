@@ -1,14 +1,14 @@
-package com.hennie.controller;
+package com.hennie.dto.view;
 
 import javax.validation.constraints.NotEmpty;
 
-import com.hennie.entity.TodoType;
+import com.hennie.domain.TodoType;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class TodoListForm {
+public class TodoListFormDto {
 	
 	private Long id;
 	
