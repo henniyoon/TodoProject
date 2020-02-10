@@ -11,30 +11,38 @@
 	
 	<th:block layout:fragment="content">
     
-    	<h3 class="mb-4 text-gray-800">미래 계획</h3>
-    	<div class="col-lg-7 p-0">
-	        <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm float-right" href="/todo/new">새 계획</a>
-	       	<table class="table table-bordered dataTable">
-	       		<thead>
-	       			<tr>
-	       				<th>#</th>
-	       				<th>TODO</th>
-	       				<th>작성일</th>
-	       				<th>마감일</th>
-	       			</tr>
-	       		</thead>
-	       		<tbody>
-	       			<tr th:each="todo : ${todos}">
-	       				<td th:text="${todo.id}"></td>
-	       				<td th:text="${todo.title}"></td>
-						<!-- LocalDateTime format -->
-	       				<td th:text="${#temporals.format(todo.regdate, 'yyyy년 MM월 dd일')}"></td>
-						<td th:if="${#strings.isEmpty(todo.deadline)}">기한 없음</td>
-						<!--  Util Date format -->
-	       				<td th:unless="${#strings.isEmpty(todo.deadline)}" th:text="${#dates.format(todo.deadline, 'yyyy년 MM월 dd일')}"></td>
-	       			</tr>
-	       		</tbody>
-	       	</table>
+   		<a href="/todo" class="h3 mb-4 text-gray-800">미래 계획</a>
+   		
+       		<a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm float-right" href="/todo/new">새 계획</a>
+	       	<div class="col-lg-7 p-0">
+	       	<div th:each="todo : ${todos}" class="card mb-4 py-3 border-left-primary">
+  				
+  				<div class="card-body">
+  					<details>
+  						<summary>
+  							<div>
+			 					<div class="progress">
+									<div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" 
+									th:style="|width:${todo.progressWidth}%;|" th:text="|${todo.progressWidth}%|"></div>
+								</div>
+								<a th:href="@{/todo/{todoId} (todoId=${todo.todoId})}" class="h3 text-gray-800" th:text="${todo.todoTitle}"></a>
+			 					<div th:if="${#strings.isEmpty(todo.deadline)}" th:text="|${#temporals.format(todo.regdate, 'yyyy년 MM월 dd일')} ~ 기한없음|"></div>
+			 					<div th:unless="${#strings.isEmpty(todo.deadline)}" th:text="|${#temporals.format(todo.regdate, 'yyyy년 MM월 dd일')} ~${#dates.format(todo.deadline, 'yyyy년 MM월 dd일')}|"></div>
+	 						</div>
+	 					</summary>
+	 					<div>
+		 					<div th:each="todoList,idx : ${todo.todoListItems}">
+		 						<div class="custom-control custom-checkbox">
+		 							<input type="checkbox" class="custom-control-input todoList" th:id="|todoListCheck${idx.index}|"
+		 							th:value="${todoList.todoListId}" th:checked="${todoList.todoDone}">
+		 							<label class="custom-control-label" th:for="|todoListCheck${idx.index}|" th:text="${todoList.todoListTitle}"
+		 							th:class="${todoList.todoDone} ? 'custom-control-label middle-line' : 'custom-control-label'"></label>
+		 						</div>
+		 					</div>
+	 					</div>
+ 					</details>
+  				</div>
+   			</div>
        	</div>
 	</th:block>
 

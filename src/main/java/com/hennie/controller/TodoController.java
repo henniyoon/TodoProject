@@ -3,6 +3,7 @@ package com.hennie.controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hennie.dto.view.TodoFormDto;
+import com.hennie.dto.view.TodoListDto;
 import com.hennie.entity.Todo;
 import com.hennie.service.TodoService;
 
@@ -53,8 +55,14 @@ public class TodoController {
 	@GetMapping("/todo")
 	public String list(Model model) {
 		List<Todo> todos = todoService.findTodos();
+		List<TodoListDto> todoList = new ArrayList<TodoListDto>();
+		
+		for(Todo todo : todos) {
+			todoList.add(new TodoListDto(todo));
+		}
 		// 실무에서 더 복잡해졌을 때 엔티티를 뿌리는 것 보단 DTO를 만들어서 필요한 객체만 뿌리는 것을 권장!
-		model.addAttribute("todos", todos);
+		model.addAttribute("todos", todoList);
+		
 		return "todo/todo";
 	}
 	
