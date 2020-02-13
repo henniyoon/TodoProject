@@ -15,7 +15,7 @@ public class TodoFormDto {
 	
 	private Long id;
 	
-	@NotEmpty(message = "todo를 입력하세요.")
+//	@NotEmpty(message = "todo를 입력하세요.")
 	private String title;
 	
 	private LocalDateTime regdate;

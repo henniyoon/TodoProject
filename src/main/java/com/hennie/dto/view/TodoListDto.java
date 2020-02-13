@@ -1,9 +1,14 @@
 package com.hennie.dto.view;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.Temporal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import javax.validation.constraints.NotEmpty;
 
 import com.hennie.domain.TodoType;
 import com.hennie.entity.Todo;
@@ -18,7 +23,7 @@ public class TodoListDto {
 	private String todoTitle;
 	private Date deadline;
 	private LocalDateTime regdate;
-	private int progressWidth;
+	private double progressWidth;
 	private List<TodoListItemDto> todoListItems;
 	
 	public TodoListDto(Todo todo) {
@@ -42,9 +47,8 @@ public class TodoListDto {
 			progressWidth = 0;
 		}
 		else {
-			progressWidth = (int)(countTodoDone/countTodoList * 100);
+			progressWidth = countTodoDone/countTodoList;
 		}
-		
 	}
 	
 	@Getter @Setter

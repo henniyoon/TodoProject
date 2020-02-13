@@ -1,10 +1,7 @@
 package com.hennie.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -15,10 +12,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hennie.dto.view.TodoFormDto;
 import com.hennie.dto.view.TodoListDto;
+import com.hennie.dto.view.TodoListFormDto;
 import com.hennie.entity.Todo;
 import com.hennie.service.TodoService;
 
@@ -33,15 +30,15 @@ public class TodoController {
 	// Todo 등록
 	@GetMapping("/todo/new")
 	public String createForm(Model model) {
-		model.addAttribute("todoForm", new TodoFormDto());
+		model.addAttribute("todoFormDto", new TodoFormDto());
 		return "todo/createTodoForm";
 	}
 	
 	@PostMapping("/todo/new")
 	public String create(@Valid TodoFormDto form, BindingResult result) {
-		if(result.hasErrors()) {
+		if(result.hasErrors()) 
 			return "todo/createTodoForm"; // 에러가 있으면 다시 todo 등록 폼으로 보냄
-		}
+		
 		Todo todo = new Todo();
 		todo.setTitle(form.getTitle());
 		todo.setRegdate(LocalDateTime.now());
@@ -72,6 +69,7 @@ public class TodoController {
 		Todo todo = (Todo) todoService.findOne(todoId);
 		
 		TodoFormDto form = new TodoFormDto();
+		model.addAttribute("todoFormListDto", new TodoListFormDto());
 		form.setId(todo.getId());
 		form.setTitle(todo.getTitle());
 //		form.setRegdate(todo.getRegdate());
@@ -82,25 +80,8 @@ public class TodoController {
 	}
 	
 	@PostMapping("/todo/{todoId}/edit")
-	public String updateTodo(TodoFormDto form) {
+	public String updateTodo(@PathVariable("todoId") Long todoId, TodoFormDto form) {
 		todoService.updateTodo(form.getId(), form.getTitle(), form.getDeadline());
-		return "redirect:/todo";
+		return "redirect:/todo/" +todoId;
 	}
-	
-//	// Todo 삭제
-//	@GetMapping("/todo/{todoId}/delete")
-//	public String deleteTodo(@PathVariable("todoId") Long todoId) {
-//		// Field
-//		boolean isDeleted;
-//
-//		// Process
-//		isDeleted = todoService.deleteTodo(todoId);
-//		
-//		// Redirect
-//		if (isDeleted)
-//			return "redirect:/todo";
-//		else
-//			return "redirect:/todo?error";
-//	}
-
 }

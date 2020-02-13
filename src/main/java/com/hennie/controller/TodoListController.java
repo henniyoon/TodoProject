@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -21,6 +22,7 @@ import com.hennie.service.TodoListService;
 import com.hennie.service.TodoService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,12 +30,15 @@ public class TodoListController {
 	
 	private final TodoService todoService;
 	private final TodoListService todoListService;
-	
+
 	// TodoList 등록	
 	@PostMapping("/todoList/{todoId}/new")
 	public String create(@PathVariable("todoId") Long todoId, @Valid TodoListFormDto form, BindingResult result, Model model) {
-		if(result.hasErrors())
-			return "todoList/" + todoId + "/new"; 
+	
+//		if(result.hasErrors()) {
+//			return "include:/todo/" + todoId;
+//		}
+		
 		TodoList todoList = new TodoList();
 		Todo todo = todoService.findOne(todoId);
 		todoList.setTodo(todo);
@@ -41,15 +46,17 @@ public class TodoListController {
 		todoList.setType(TodoType.TODO);
 		
 		todoListService.saveTodoList(todoList);
+		
 		return "redirect:/todo/" + todoId;
 	}
 	
-	// TodoList
+	// TodoList 페이지
 	@GetMapping("/todo/{todoId}")
 	public String list(@PathVariable("todoId") Long todoId, Model model) {
 		Todo todo = todoService.findOne(todoId);
 		
 		model.addAttribute("todo", new TodoListDto(todo));
+		model.addAttribute("todoFormListDto", new TodoListFormDto());
 		
 		return "todoList/todoList";
 	}
