@@ -60,6 +60,9 @@ public class TodoController {
 		// 실무에서 더 복잡해졌을 때 엔티티를 뿌리는 것 보단 DTO를 만들어서 필요한 객체만 뿌리는 것을 권장!
 		model.addAttribute("todos", todoList);
 		
+		if(todos.isEmpty()) {
+			return "todo/nullTodo";
+		}
 		return "todo/todo";
 	}
 	

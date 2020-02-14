@@ -5,34 +5,37 @@
 	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
 	layout:decorate="~{layout/defaultLayout}">
 
-<head>
-    <title>TodoList</title>    
-</head>
-	
+	<head>
+	    <title>Todo</title>    
+	</head>
+		
 	<th:block layout:fragment="content">
     
    		<a href="/todo" class="h3 mb-4 text-gray-800">미래 계획</a>
-   		
-       		<a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm float-right" href="/todo/new">새 계획</a>
+       		
 	       	<div class="col-lg-7 p-0">
-	       	<div th:each="todo : ${todos}" class="card mb-4 py-3 border-left-primary">
+	       	<a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm float-right" href="/todo/new">새 계획</a><br><br>
+	       	<div th:each="todo : ${todos}" class="card mb-4 shadow">
   				
-  				<div class="card-body">
+  				<div class="card-body pl-5 pr-5">
   					<details>
   						<summary>
-  							<div>
+  							<div class="form-group row mb-0">
 			 					<div class="circle" th:percent="${todo.progressWidth}">
     								<strong></strong>
     							</div>
-								<a th:href="@{/todo/{todoId} (todoId=${todo.todoId})}" class="h3 text-gray-800" th:text="${todo.todoTitle}"></a>
-								<div th:if="${(todo.progressWidth == 1.0)}" class="h5 text-danger">목표 달성됨</div>
+    							<div class="col-sm pt-4"> 
+									<a th:href="@{/todo/{todoId} (todoId=${todo.todoId})}" class="h3 text-gray-800 pt-2" th:text="${todo.todoTitle}"></a>
+								</div>
+								<div th:if="${(todo.progressWidth == 1.0)}" class="h5 text-danger mt-4 mr-2">목표 달성됨</div>
 								<div th:unless="${(todo.progressWidth == 1.0)}">
-				 					<div th:if="${#strings.isEmpty(todo.deadline)}" class="h5 text-danger">기한 없음</div>
-				 					<div th:unless="${#strings.isEmpty(todo.deadline)}" th:text="|${#temporals.format(todo.regdate, 'yyyy년 MM월 dd일')} ~${#dates.format(todo.deadline, 'yyyy년 MM월 dd일')}|"></div>
+				 					<div th:if="${#strings.isEmpty(todo.deadline)}" class="h5 text-danger mt-4 mr-2">기한 없음</div>
+				 					<div th:unless="${#strings.isEmpty(todo.deadline)}" class="mt-4 mr-2" th:text="|${#temporals.format(todo.regdate, 'yyyy년 MM월 dd일')} ~${#dates.format(todo.deadline, 'yyyy년 MM월 dd일')}|"></div>
 	 							</div>
 	 						</div>
 	 					</summary>
 	 					<div>
+	 						<hr>
 		 					<div th:each="todoList,idx : ${todo.todoListItems}">
 		 						<div class="custom-control custom-checkbox">
 		 							<input type="checkbox" class="custom-control-input todoList" th:id="|todoListCheck${todo.todoId}${idx.index}|"

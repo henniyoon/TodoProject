@@ -5,43 +5,61 @@
 	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
 	layout:decorate="~{layout/defaultLayout}">
 
-<head>
-    <title>TodoList</title>    
-</head>
-	
+	<head>
+	    <title>TodoList</title>    
+	</head>
+		
 	<th:block layout:fragment="content">
 	
     	<form role="form" th:action="|/todoList/${todo.todoId}/new|" th:object="${todoFormListDto}" method="post"
     	onchange="checkForm();" onsubmit="return checkForm();">
 	    	<a href="/todo" class="h3 mb-4 text-gray-800">미래 계획</a>
-	    	<div class="col-lg-7 p-0">
-	  			<div class="card mb-4 py-3 border-left-primary">
-	  				<div class="card-body">
-						<div class="circle" th:percent="${todo.progressWidth}">
-    						<strong></strong>
-    					</div>
-  						<h3 class ="text-gray-800" th:text="${todo.todoTitle}"></h3>
-  						<div th:if="${(todo.progressWidth == 1.0)}" class="h5 text-danger">목표 달성됨</div>
-	  					<div th:if="${#strings.isEmpty(todo.deadline)}" th:text="|${#temporals.format(todo.regdate, 'yyyy년 MM월 dd일')} ~ 기한없음|"></div>
-	  					<div th:unless="${#strings.isEmpty(todo.deadline)}" th:text="|${#temporals.format(todo.regdate, 'yyyy년 MM월 dd일')} ~${#dates.format(todo.deadline, 'yyyy년 MM월 dd일')}|"></div>
+	    	<div class="col-lg-7 p-0 mt-4">
+	  			<div class="card mb-4 shadow">
+	  				<div class="card-body ml-3">
+		  				<div class="form-group row">
+							<div class="circle" th:percent="${todo.progressWidth}">
+	    						<strong></strong>
+	    					</div>
+	    					<div class="col-sm pt-4"> 
+		  						<h3 class ="text-gray-800 pt-2" th:text="${todo.todoTitle}"></h3>
+	  						</div>
+	  						<div class="col-sm pt-3 mr-2">
+		  						<div class="text-right">
+			  						<div th:if="${(todo.progressWidth == 1.0)}" class="h5 text-danger">목표 달성됨</div>
+				  					<div th:if="${#strings.isEmpty(todo.deadline)}"  th:text="|${#temporals.format(todo.regdate, 'yyyy.MM.dd')} ~ 기한없음|"></div>
+				  					<div th:unless="${#strings.isEmpty(todo.deadline)}" th:text="|${#temporals.format(todo.regdate, 'yyyy.MM.dd')} ~${#dates.format(todo.deadline, 'yyyy.MM.dd')}|"></div>
+		  						</div>
+	  						</div>
+	  					</div>
 	  					<div th:each="todoList,idx : ${todo.todoListItems}">
 	  						<div class="custom-control custom-checkbox">
 	  							<input type="checkbox" class="custom-control-input todoList" th:id="|todoListCheck${idx.index}|"
 	  							th:value="${todoList.todoListId}" th:checked="${todoList.todoDone}">
 	  							<label class="custom-control-label" th:for="|todoListCheck${idx.index}|" th:text="${todoList.todoListTitle}"
 	  								th:class="${todoList.todoDone} ? 'custom-control-label middle-line' : 'custom-control-label'"></label>
-	  							<a th:href="@{/todoList/{todoId}/{listId}/delete (todoId=${todo.todoId}, listId=${todoList.todoListId})}" 
-	  							class="text-gray-100 d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">x</a>
+	  							<a th:href="@{/todoList/{todoId}/{listId}/delete (todoId=${todo.todoId}, listId=${todoList.todoListId})}" class="btn btn-circle btn-sm">
+	  								<i class="fas fa-trash"></i>
+	  							</a>
 	  						</div>
 	  					</div>
-						<input type="text" th:field="*{title}" id="plan" class="form-control form-control-sm" placeholder="세부 계획을 입력해주세요.">
-<!-- 						<div class="invalid-feedback">세부 계획을 입력해주세요.</div> -->
-<!-- 						<div class="valid-feedback"></div> -->
-						<button type="submit" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">+</button>  			
-    					<a th:href="@{/todo/{todoId}/edit (todoId=${todo.todoId})}"
-    					class="text-gray-100 d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">수정</a>
-    					<a th:href="@{/todo/{todoId}/delete (todoId=${todo.todoId})}" 
-    					class="text-gray-100 d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">삭제</a>
+	  					<div class="form-group row mt-4">
+							<input type="text" th:field="*{title}" id="plan" class="form-control col-sm" placeholder="세부 계획을 입력해주세요.">
+	<!-- 						<div class="invalid-feedback">세부 계획을 입력해주세요.</div> -->
+	<!-- 						<div class="valid-feedback"></div> -->
+							<div class="col-sm-1 mt-1">
+								<button type="submit" class="btn btn-primary btn-circle btn-sm">
+									<i class="fas fa-check"></i>
+								</button>  			
+							</div>    					
+    					</div>
+    					<hr>
+    					<div class="float-right">
+	    					<a th:href="@{/todo/{todoId}/edit (todoId=${todo.todoId})}"
+	    					class="text-gray-100 d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">수정</a>
+	    					<a th:href="@{/todo/{todoId}/delete (todoId=${todo.todoId})}" 
+	    					class="text-gray-100 d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">삭제</a>
+    					</div>
     				</div>
     			</div>
     		</div>
