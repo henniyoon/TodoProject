@@ -108,14 +108,14 @@ public class TodoListService {
 	
 	// TodoList 타입 수정
 	@Transactional
-	public boolean updateTodoType(Long id, TodoType type) {
+	public Todo updateTodoType(Long id, TodoType type) {
 		// Field
 		Optional<TodoList> optTodoType = todoListRepo.findById(id);
 		TodoList todoList;
 		
 		// Exception
 		if(!optTodoType.isPresent())
-			return false;
+			return null;
 		
 		// Load
 		todoList = optTodoType.get();
@@ -123,7 +123,7 @@ public class TodoListService {
 		todoList.setType(type);
 
 		// Return
-		return true;
+		return todoList.getTodo();
 	}
 	
 	// TodoList DeletefindById

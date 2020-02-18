@@ -18,7 +18,7 @@
 	  			<div class="card mb-4 shadow">
 	  				<div class="card-body ml-3">
 		  				<div class="form-group row">
-							<div class="circle" th:percent="${todo.progressWidth}">
+							<div class="circle" th:percent="${todo.progressWidth}" th:id="|progress${todo.todoId}|">
 	    						<strong></strong>
 	    					</div>
 	    					<div class="col-sm pt-4"> 
@@ -26,18 +26,20 @@
 	  						</div>
 	  						<div class="col-sm pt-3 mr-2">
 		  						<div class="text-right">
-			  						<div th:if="${(todo.progressWidth == 1.0)}" class="h5 text-danger">목표 달성됨</div>
-				  					<div th:if="${#strings.isEmpty(todo.deadline)}"  th:text="|${#temporals.format(todo.regdate, 'yyyy.MM.dd')} ~ 기한없음|"></div>
-				  					<div th:unless="${#strings.isEmpty(todo.deadline)}" th:text="|${#temporals.format(todo.regdate, 'yyyy.MM.dd')} ~${#dates.format(todo.deadline, 'yyyy.MM.dd')}|"></div>
+			  						<div th:style="${(todo.progressWidth == 1.0)} ? '' : 'display:none'" th:id="|done${todo.todoId}|" class="h5 text-danger mt-4 mr-2">목표 달성됨</div>
+									<div th:style="${(todo.progressWidth == 1.0)} ? 'display:none' : ''" th:id="|doing${todo.todoId}|">
+					 					<div th:style="${(todo.deadline == null)} ? '' : 'display:none'" th:id="|no_deadline${todo.todoId}|" class="h5 text-danger mt-4 mr-2">기한 없음</div>
+					 					<div th:style="${(todo.deadline == null)} ? 'display:none' : ''" th:id="|deadline${todo.todoId}|" class="mt-4 mr-2" th:text="|${#temporals.format(todo.regdate, 'yyyy년 MM월 dd일')} ~${#dates.format(todo.deadline, 'yyyy년 MM월 dd일')}|"></div>
+		 							</div>
 		  						</div>
 	  						</div>
 	  					</div>
-	  					<div th:each="todoList,idx : ${todo.todoListItems}">
+	  					<div th:each="todoList : ${todo.todoListItems}">
 	  						<div class="custom-control custom-checkbox">
-	  							<input type="checkbox" class="custom-control-input todoList" th:id="|todoListCheck${idx.index}|"
+	  							<input type="checkbox" class="custom-control-input todoList" th:id="|todoListCheck${todoList.todoListId}|"
 	  							th:value="${todoList.todoListId}" th:checked="${todoList.todoDone}">
-	  							<label class="custom-control-label" th:for="|todoListCheck${idx.index}|" th:text="${todoList.todoListTitle}"
-	  								th:class="${todoList.todoDone} ? 'custom-control-label middle-line' : 'custom-control-label'"></label>
+	  							<label class="custom-control-label" th:id="|todoList${todoList.todoListId}|" th:for="|todoListCheck${todoList.todoListId}|" th:text="${todoList.todoListTitle}"
+	  								th:style="${todoList.todoDone} ? 'text-decoration: line-through' : ''"></label>
 	  							<a th:href="@{/todoList/{todoId}/{listId}/delete (todoId=${todo.todoId}, listId=${todoList.todoListId})}" class="btn btn-circle btn-sm">
 	  								<i class="fas fa-trash"></i>
 	  							</a>

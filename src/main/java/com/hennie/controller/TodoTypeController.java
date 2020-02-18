@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hennie.domain.TodoType;
 import com.hennie.dto.ResponseDto;
+import com.hennie.dto.view.TodoListDto;
+import com.hennie.entity.Todo;
 import com.hennie.service.TodoListService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,9 +24,10 @@ public class TodoTypeController {
 	
 	// /api/rest/v1/todo/update/type/1
 	@PostMapping("/todo/update/type/{listId}")
-	public ResponseDto updateTodoType(@PathVariable("listId") Long listId, @RequestParam("typeId") Integer typeId) {
+	public TodoListDto updateTodoType(@PathVariable("listId") Long listId, @RequestParam("typeId") Integer typeId) {
 		// Field
 		TodoType todoType;
+		Todo todo;
 		
 		// Init
 		if (typeId == 0)
@@ -35,10 +38,10 @@ public class TodoTypeController {
 			todoType = TodoType.TODO;
 
 		// Modify
-		if (todoListService.updateTodoType(listId, todoType))
-			return new ResponseDto(0, "성공");
-		else
-			return new ResponseDto(-1, "실패");
+		todo = todoListService.updateTodoType(listId, todoType);
+		if(todo == null) 
+			return null;
+		return new TodoListDto(todo);
 	}
 
 }
