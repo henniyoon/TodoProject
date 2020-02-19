@@ -14,5 +14,17 @@ public class HomeController {
 		log.info("home controller");
 		return "views/home";
 	}
+	
+	@RequestMapping("/blank")
+	public String blank() {
+		log.info("home controller");
+		return "views/blank";
+	}
+	
+	@RequestMapping("/errors")
+	public String error() {
+		log.info("home controller");
+		return "views/blank";
+	}
 
 }
