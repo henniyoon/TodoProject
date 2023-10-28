@@ -3,6 +3,7 @@ package com.hennie.controller;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -20,21 +21,23 @@ import com.hennie.entity.Todo;
 import com.hennie.service.TodoService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/todo")
 public class TodoController {
 	
 	private final TodoService todoService;
 	
 	// Todo 등록
-	@GetMapping("/todo/new")
+	@GetMapping("/new")
 	public String createForm(Model model) {
 		model.addAttribute("todoFormDto", new TodoFormDto());
 		return "todo/createTodoForm";
 	}
 	
-	@PostMapping("/todo/new")
+	@PostMapping("/new")
 	public String create(@Valid TodoFormDto form, BindingResult result) {
 		if(result.hasErrors()) 
 			return "todo/createTodoForm"; // 에러가 있으면 다시 todo 등록 폼으로 보냄
@@ -52,12 +55,11 @@ public class TodoController {
 	@GetMapping("/todo")
 	public String list(Model model) {
 		List<Todo> todos = todoService.findTodos();
-		List<TodoListDto> todoList = new ArrayList<TodoListDto>();
-		
-		for(Todo todo : todos) {
-			todoList.add(new TodoListDto(todo));
-		}
-		// 실무에서 더 복잡해졌을 때 엔티티를 뿌리는 것 보단 DTO를 만들어서 필요한 객체만 뿌리는 것을 권장!
+
+		List<TodoListDto> todoList = todos.stream()
+				.map(TodoListDto::new)
+						.collect(Collectors.toList());
+
 		model.addAttribute("todos", todoList);
 		
 		if(todos.isEmpty()) {
@@ -67,7 +69,7 @@ public class TodoController {
 	}
 	
 	// Todo 수정
-	@GetMapping("/todo/{todoId}/edit")
+	@GetMapping("/{todoId}/edit")
 	public String updateTodoForm(@PathVariable("todoId") Long todoId, Model model) {
 		Todo todo = (Todo) todoService.findOne(todoId);
 		
@@ -82,7 +84,7 @@ public class TodoController {
 		return "todo/updateTodoForm";
 	}
 	
-	@PostMapping("/todo/{todoId}/edit")
+	@PostMapping("/{todoId}/edit")
 	public String updateTodo(@PathVariable("todoId") Long todoId, TodoFormDto form) {
 		todoService.updateTodo(form.getId(), form.getTitle(), form.getDeadline());
 		return "redirect:/todo/" +todoId;
